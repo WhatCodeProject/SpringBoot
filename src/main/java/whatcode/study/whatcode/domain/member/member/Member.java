@@ -1,18 +1,16 @@
-package whatcode.study.whatcode.domain.member;
+package whatcode.study.whatcode.domain.member.member;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import whatcode.study.whatcode.domain.chat.Chat;
-import whatcode.study.whatcode.domain.common.BaseTimeEntity;
-import whatcode.study.whatcode.domain.memberTeam.MemberTeam;
+import whatcode.study.whatcode.domain.chat.chat.Chat;
+import whatcode.study.whatcode.domain.common.common.BaseTimeEntity;
+import whatcode.study.whatcode.domain.memberTeam.memberTeam.MemberTeam;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

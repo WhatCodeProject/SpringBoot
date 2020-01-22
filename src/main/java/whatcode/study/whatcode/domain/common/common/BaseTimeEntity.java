@@ -1,4 +1,4 @@
-package whatcode.study.whatcode.domain.common;
+package whatcode.study.whatcode.domain.common.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,4 +22,4 @@ public abstract class BaseTimeEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-}
+} // .
