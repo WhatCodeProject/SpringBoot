@@ -1,15 +1,12 @@
-package whatcode.study.whatcode.domain.chat;
+package whatcode.study.whatcode.domain.chat.chat;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import whatcode.study.whatcode.domain.common.BaseTimeEntity;
-import whatcode.study.whatcode.domain.member.Member;
-import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.common.common.BaseTimeEntity;
+import whatcode.study.whatcode.domain.member.member.Member;
+import whatcode.study.whatcode.domain.team.team.Team;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 

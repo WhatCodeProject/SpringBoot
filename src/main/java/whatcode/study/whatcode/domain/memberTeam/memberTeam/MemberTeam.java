@@ -1,9 +1,9 @@
-package whatcode.study.whatcode.domain.memberTeam;
+package whatcode.study.whatcode.domain.memberTeam.memberTeam;
 
 import lombok.*;
-import whatcode.study.whatcode.domain.common.BaseTimeEntity;
-import whatcode.study.whatcode.domain.member.Member;
-import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.common.common.BaseTimeEntity;
+import whatcode.study.whatcode.domain.member.member.Member;
+import whatcode.study.whatcode.domain.team.team.Team;
 
 import javax.persistence.*;
 
