@@ -1,6 +1,5 @@
 package whatcode.study.whatcode.socket.domain;
 
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
