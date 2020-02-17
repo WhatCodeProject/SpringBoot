@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.chat.chat.Chat;
 import whatcode.study.whatcode.domain.common.common.BaseTimeEntity;
+import whatcode.study.whatcode.domain.memberRoom.memberRoom.MemberRoom;
 import whatcode.study.whatcode.domain.memberTeam.memberTeam.MemberTeam;
 
 import javax.persistence.*;
@@ -33,8 +34,11 @@ public class Member extends BaseTimeEntity {
 
     private String nickName;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberTeam> memberTeams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberRoom> memberRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
@@ -45,5 +49,16 @@ public class Member extends BaseTimeEntity {
         this.password = password;
         this.name = name;
         this.nickName = nickName;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
     }
 }

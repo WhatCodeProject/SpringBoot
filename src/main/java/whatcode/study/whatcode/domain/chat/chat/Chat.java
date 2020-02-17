@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -41,7 +42,7 @@ public class Chat extends BaseTimeEntity {
         chat.chatDate = chatDate;
         chat.setMember(member);
         chat.setTeam(team);
-
+ 
         return chat;
     }
 
