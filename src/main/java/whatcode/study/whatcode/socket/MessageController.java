@@ -6,10 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 코드 공유, 채팅기능 컨트롤러
@@ -27,18 +24,22 @@ public class MessageController {
     // 방번호에 맞는 유저들을 담는 컬렉션
     private final Map<String, Set<String>> userSetByRoomId = new LinkedHashMap<>();
 
+    // 방번호에 맞는 마지막 코드 내역을 담는 컬렉션
+    private final Map<String, String> roomCode = new HashMap<>();
+
     /**
      * 접속중인 유저
      * - Connection이 맺어진 후 해당 커넥션에 접속중인 유저들에 대한 정보를 RoomId가 Key인 Map에 담아 반환한다.
      */
     @MessageMapping("/room/connect")
-    public void connect(String name, String roomId) {
+    public void connect(Message message) {
+        String roomId = message.getRoomId();
         if (!userSetByRoomId.containsKey(roomId)) {
             userSetByRoomId.put(roomId, new LinkedHashSet<>());
         }
         Set<String> userSet = userSetByRoomId.get(roomId);
-        userSet.add(name);
-        messagingTemplate.convertAndSend("/subscribe/room" + roomId, userSet);
+        userSet.add(message.getAuthor());
+        messagingTemplate.convertAndSend("/subscribe/room/" + roomId, new ConnectDto(userSet, roomCode.get(roomId)));
     }
 
     /**
@@ -53,7 +54,7 @@ public class MessageController {
 
         // TODO: SAVE CHAT DATA
 
-        messagingTemplate.convertAndSend("/subscribe/room" + message.getRoomdId(), message);
+        messagingTemplate.convertAndSend("/subscribe/room/" + message.getRoomId(), message);
     }
 
     /**
@@ -64,7 +65,20 @@ public class MessageController {
      */
     @MessageMapping("/room/code")
     public void codeShare(Message message) {
-        messagingTemplate.convertAndSend("/subscribe/room" + message.getRoomdId(), message);
+        String roomId = message.getRoomId();
+        roomCode.put(roomId, message.getMessage());
+        messagingTemplate.convertAndSend("/subscribe/room/" + message.getRoomId(), message);
+    }
+
+    @MessageMapping("/room/disconnect")
+    public void disconnect(Message message){
+        String roomId = message.getRoomId();
+        Set<String> userSet = userSetByRoomId.get(roomId);
+        if (userSet != null){
+            userSet.remove(message.getAuthor());
+        }
+        messagingTemplate.convertAndSend("/subscribe/room/" + message.getRoomId(), new ConnectDto(userSet, roomCode.get(roomId)));
+
     }
 
 }

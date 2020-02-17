@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Message {
-    private String roomdId;
+    private String roomId;
     private String message;
     private String author;
-    private MessageType messageType;
+    private MessageType type;
 }
