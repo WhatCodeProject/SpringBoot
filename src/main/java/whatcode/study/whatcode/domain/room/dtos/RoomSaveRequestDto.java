@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import whatcode.study.whatcode.domain.member.member.Member;
-import whatcode.study.whatcode.domain.member.member.MemberRepository;
-import whatcode.study.whatcode.domain.team.team.Team;
-import whatcode.study.whatcode.domain.team.team.TeamType;
+import whatcode.study.whatcode.domain.member.MemberRepository;
 
 @Getter
 @NoArgsConstructor

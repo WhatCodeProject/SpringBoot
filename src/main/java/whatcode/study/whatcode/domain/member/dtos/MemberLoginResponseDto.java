@@ -3,7 +3,7 @@ package whatcode.study.whatcode.domain.member.dtos;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import whatcode.study.whatcode.domain.member.member.Member;
+import whatcode.study.whatcode.domain.member.Member;
 
 @Getter
 @NoArgsConstructor

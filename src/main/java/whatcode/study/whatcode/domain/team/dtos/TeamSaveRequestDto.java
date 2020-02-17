@@ -4,11 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
-import whatcode.study.whatcode.domain.member.member.Member;
-import whatcode.study.whatcode.domain.member.member.MemberRepository;
-import whatcode.study.whatcode.domain.team.team.Team;
-import whatcode.study.whatcode.domain.team.team.TeamType;
+import whatcode.study.whatcode.domain.member.Member;
+import whatcode.study.whatcode.domain.member.MemberRepository;
+import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.team.TeamType;
 
 @Getter
 @NoArgsConstructor
@@ -19,11 +18,11 @@ public class TeamSaveRequestDto {
 
     private String memberEmail;
     private String teamName;
-    private String teamType;
+    private TeamType teamType;
 
 
     @Builder
-    public TeamSaveRequestDto(String memberEmail, String teamName, String teamType){
+    public TeamSaveRequestDto(String memberEmail, String teamName, TeamType teamType){
         this.memberEmail = memberEmail;
         this.teamName = teamName;
         this.teamType = teamType;

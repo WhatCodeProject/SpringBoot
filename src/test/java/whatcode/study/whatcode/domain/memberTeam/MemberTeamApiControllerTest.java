@@ -10,16 +10,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import whatcode.study.whatcode.domain.member.member.Member;
-import whatcode.study.whatcode.domain.member.member.MemberRepository;
+import whatcode.study.whatcode.domain.member.Member;
+import whatcode.study.whatcode.domain.member.MemberRepository;
 import whatcode.study.whatcode.domain.memberTeam.dtos.TeamFindRequestDto;
-import whatcode.study.whatcode.domain.memberTeam.memberTeam.MemberTeam;
-import whatcode.study.whatcode.domain.memberTeam.memberTeam.MemberTeamRepository;
 import whatcode.study.whatcode.domain.team.dtos.TeamSaveRequestDto;
-import whatcode.study.whatcode.domain.team.team.Team;
-import whatcode.study.whatcode.domain.team.team.TeamRepository;
-import whatcode.study.whatcode.domain.team.team.TeamType;
-import whatcode.study.whatcode.domain.team.teamService.TeamService;
+import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.team.TeamRepository;
+import whatcode.study.whatcode.domain.team.TeamService;
 
 import java.util.List;
 
