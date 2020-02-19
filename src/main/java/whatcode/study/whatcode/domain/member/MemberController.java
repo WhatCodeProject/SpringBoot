@@ -17,14 +17,11 @@ public class MemberController {
 
     @PostMapping("/api/member/save")
     public ResponseEntity save(@RequestBody MemberSaveRequestDto requestDto) {
-        Long result = memberService.save(requestDto);
-        if (result > 0) {
-            // TODO 참고: 이렇게 해도 돼요
-            return ResponseEntity.ok(result);
-//            return new ResponseEntity<>(result, HttpStatus.OK);
+        Long savedMemberId = memberService.save(requestDto);
+        if (savedMemberId > 0) {
+            return ResponseEntity.ok(savedMemberId);
         } else {
             return ResponseEntity.badRequest().build();
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -32,9 +29,9 @@ public class MemberController {
     public ResponseEntity login(@RequestBody MemberLoginRequestDto requestDto) {
         MemberLoginResponseDto memberLoginResponseDto = memberService.login(requestDto);
         if (memberLoginResponseDto != null) {
-            return new ResponseEntity<>(memberLoginResponseDto, HttpStatus.OK);
+            return ResponseEntity.ok(memberLoginResponseDto);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
 

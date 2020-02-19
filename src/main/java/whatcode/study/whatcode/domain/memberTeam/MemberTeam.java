@@ -1,6 +1,7 @@
 package whatcode.study.whatcode.domain.memberTeam;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.common.BaseTimeEntity;
@@ -28,6 +29,7 @@ public class MemberTeam extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
 
     // ==== 생성 메서드 ==== //
     public static MemberTeam createMemberTeam(Member member, Team team){

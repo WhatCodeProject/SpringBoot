@@ -13,7 +13,8 @@ public interface MemberTeamRepository extends JpaRepository<MemberTeam,Long>{
     public List<MemberTeam> findByMember(Member member);
 
 
-    @Query("select mt from MemberTeam mt" +
+    @Query(" select mt " +
+            " from MemberTeam mt" +
             " join fetch mt.team t" +
             " where mt.member.id = :memberId")
     List<MemberTeam> findByMemberId(Long memberId);
