@@ -15,12 +15,12 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping("/api/room/save")
-    public ResponseEntity save(@RequestBody RoomSaveRequestDto requestDto){
+    public ResponseEntity save(@RequestBody RoomSaveRequestDto requestDto) {
         Long result = roomService.save(requestDto);
-        if(result>0){
+        if (result > 0) {
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST );
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

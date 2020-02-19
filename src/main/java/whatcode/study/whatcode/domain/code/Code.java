@@ -1,11 +1,11 @@
 package whatcode.study.whatcode.domain.code;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.common.BaseTimeEntity;
-import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.member.Member;
+import whatcode.study.whatcode.domain.room.Room;
 
 import javax.persistence.*;
 
@@ -32,15 +32,27 @@ public class Code extends BaseTimeEntity {
     private String content;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @JoinColumn(name = "room_id")
+    private Room room;
     // TODO 코드는 룸, 멤버와 연관관계
 
-    @Builder
-    public Code(String title, CodeType codeType, String content, Team team) {
-        this.title = title;
-        this.codeType = codeType;
-        this.content = content;
-        this.team = team;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+
+    public static Code createCode(String titie, CodeType codeType, String content, Room room, Member member) {
+        Code code = new Code();
+        code.title = titie;
+        code.codeType = codeType;
+        code.content = content;
+        code.room = room;
+        code.setMember(member);
+        return code;
+    }
+
+    private void setMember(Member member) {
+        this.member = member;
+        member.getCodes().add(this);
     }
 }

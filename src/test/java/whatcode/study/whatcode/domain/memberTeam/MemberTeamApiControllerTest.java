@@ -13,10 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import whatcode.study.whatcode.domain.member.Member;
 import whatcode.study.whatcode.domain.member.MemberRepository;
 import whatcode.study.whatcode.domain.memberTeam.dtos.TeamFindRequestDto;
-import whatcode.study.whatcode.domain.team.dtos.TeamSaveRequestDto;
 import whatcode.study.whatcode.domain.team.Team;
 import whatcode.study.whatcode.domain.team.TeamRepository;
 import whatcode.study.whatcode.domain.team.TeamService;
+import whatcode.study.whatcode.domain.team.TeamType;
+import whatcode.study.whatcode.domain.team.dtos.TeamSaveRequestDto;
 
 import java.util.List;
 
@@ -84,12 +85,12 @@ public class MemberTeamApiControllerTest {
         TeamSaveRequestDto requestDto1 = TeamSaveRequestDto.builder()
                 .memberEmail(inMemberEmail1)
                 .teamName(inTeamName1)
-                .teamType(inTeamType1)
+                .teamType(TeamType.WORK)
                 .build();
         TeamSaveRequestDto requestDto2 = TeamSaveRequestDto.builder()
                 .memberEmail(inMemberEmail2)
                 .teamName(inTeamName2)
-                .teamType(inTeamType2)
+                .teamType(TeamType.STUDY)
                 .build();
 
         teamService.save(requestDto1);

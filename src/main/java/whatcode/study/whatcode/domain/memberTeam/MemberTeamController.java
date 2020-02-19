@@ -16,6 +16,8 @@ public class MemberTeamController {
 
     @PostMapping("/api/memberTeam/findTeamsByMember")
     public List<MemberTeam> findTeamsByMember(@RequestBody TeamFindRequestDto requestDto){
+        // TODO 이부분은 MemberTeam을 내보낼게 아니라 TeamDto를 내보내야 할거같네요
+        // MemberTeamTempRepository 참고하시고
         return memberTeamService.findTeamsByMember(requestDto);
     }
 

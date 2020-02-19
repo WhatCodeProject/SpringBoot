@@ -60,7 +60,7 @@ public class TeamApiControllerTest {
         TeamSaveRequestDto requestDto = TeamSaveRequestDto.builder()
                 .memberEmail(inMemberEmail1)
                 .teamName(inTeamName1)
-                .teamType(inTeamType1)
+                .teamType(TeamType.WORK)
                 .build();
 
         String url = "http://localhost:" + port + "/api/team/save";

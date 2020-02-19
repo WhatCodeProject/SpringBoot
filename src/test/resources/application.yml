@@ -14,7 +14,7 @@ spring:
         show_sql: true
   h2:
     console:
-      enabled: ture
+      enabled: true
       path: /h2-console
 
 server:

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.common.BaseTimeEntity;
 import whatcode.study.whatcode.domain.member.Member;
-import whatcode.study.whatcode.domain.team.Team;
+import whatcode.study.whatcode.domain.room.Room;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -34,16 +34,17 @@ public class Chat extends BaseTimeEntity {
     private Member member;
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @JoinColumn(name = "room_id")
+    private Room room;
     // TODO Chat은 Room이랑 연관관계
 
     // ==== 생성 메서드 ==== //
-    public static Chat createChat(String content, LocalDateTime chatDate, Member member, Team team){
+    public static Chat createChat(String content, LocalDateTime chatDate, Member member, Room room) {
         Chat chat = new Chat();
         chat.content = content;
         chat.chatDate = chatDate;
         chat.setMember(member);
+        chat.setRoom(room);
 
         return chat;
     }
@@ -54,8 +55,8 @@ public class Chat extends BaseTimeEntity {
         member.getChats().add(this);
     }
 
-//    private void setTeam(Team team) {
-//        this.team = team;
-//        team.setChat(this);
-//    }
+    private void setRoom(Room room) {
+        this.room = room;
+        room.setChat(this);
+    }
 }

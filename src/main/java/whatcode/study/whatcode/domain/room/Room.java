@@ -29,7 +29,7 @@ public class Room extends BaseTimeEntity {
     @OneToOne(mappedBy = "room")
     private Chat chat;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
@@ -46,4 +46,5 @@ public class Room extends BaseTimeEntity {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
 }

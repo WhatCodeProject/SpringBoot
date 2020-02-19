@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.common.BaseTimeEntity;
 import whatcode.study.whatcode.domain.member.Member;
 import whatcode.study.whatcode.domain.memberTeam.MemberTeam;
+import whatcode.study.whatcode.domain.room.Room;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,14 +29,16 @@ public class Team extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private TeamType teamType;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team")
     private List<MemberTeam> memberTeams = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member master;
 
     //TODO 룸을 다로 가진다.
+    @OneToMany(mappedBy = "team")
+    private List<Room> rooms = new ArrayList<>();
 
 
     // ==== 생성 메서드 ===

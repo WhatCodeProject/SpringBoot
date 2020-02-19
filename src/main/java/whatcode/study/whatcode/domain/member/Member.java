@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import whatcode.study.whatcode.domain.chat.Chat;
+import whatcode.study.whatcode.domain.code.Code;
 import whatcode.study.whatcode.domain.common.BaseTimeEntity;
 import whatcode.study.whatcode.domain.memberTeam.MemberTeam;
 
@@ -36,9 +37,11 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<MemberTeam> memberTeams = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Code> codes = new ArrayList<>();
 
     @Builder
     public Member(String email, String password, String name, String nickName) {

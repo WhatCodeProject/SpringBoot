@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import whatcode.study.whatcode.domain.member.MemberRepository;
+import whatcode.study.whatcode.domain.room.RoomType;
 
 @Getter
 @NoArgsConstructor
@@ -16,11 +17,11 @@ public class RoomSaveRequestDto {
     private String memberEmail;
     private String teamName;
     private String roomName;
-    private String roomType;
+    private RoomType roomType;
 
 
     @Builder
-    public RoomSaveRequestDto(String memberEmail, String roomName, String roomType, String teamName){
+    public RoomSaveRequestDto(String memberEmail, String roomName, RoomType roomType, String teamName) {
         this.memberEmail = memberEmail;
         this.roomName = roomName;
         this.roomType = roomType;

@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import whatcode.study.whatcode.domain.member.dtos.MemberLoginRequestDto;
 import whatcode.study.whatcode.domain.member.dtos.MemberLoginResponseDto;
 import whatcode.study.whatcode.domain.member.dtos.MemberSaveRequestDto;
-import whatcode.study.whatcode.domain.member.Member;
-import whatcode.study.whatcode.domain.member.MemberRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -15,12 +13,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long save(MemberSaveRequestDto requestDto) { return memberRepository.save(requestDto.toEntity()).getId(); }
+    public Long save(MemberSaveRequestDto requestDto) {
+        return memberRepository.save(requestDto.toEntity()).getId();
+    }
 
     public MemberLoginResponseDto login(MemberLoginRequestDto requestDto) {
         Member member = memberRepository.findByEmail(requestDto.getEmail());
 
-        if(member!=null) {
+        if (member != null) {
             if (member.getPassword().equals(requestDto.getPassword())) {
                 return MemberLoginResponseDto.builder().email(member.getEmail()).nickName(member.getNickName()).name(member.getName()).build();
             } else {
