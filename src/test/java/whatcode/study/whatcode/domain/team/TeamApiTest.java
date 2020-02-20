@@ -60,7 +60,7 @@ class TeamApiTest {
     }
 
     @Test
-    void teamSaveMock() throws Exception {
+    void teamSave() throws Exception {
 
         //given
         String memberEmail = "test01@gmail.com";
@@ -74,14 +74,14 @@ class TeamApiTest {
                         .content(objectMapper.writeValueAsString(teamDto)))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("id").value("1"));
+                    .andExpect(jsonPath("id").exists());
     }
 
     @AfterEach
     void tearDown() throws Exception{
+        memberTeamRepository.deleteAll();
         teamRepository.deleteAll();
         memberRepository.deleteAll();
-        memberTeamRepository.deleteAll();
     }
 
     private MemberSaveRequestDto getMemberSaveRequestDto(String email) {

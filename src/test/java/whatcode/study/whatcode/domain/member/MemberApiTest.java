@@ -1,14 +1,19 @@
 package whatcode.study.whatcode.domain.member;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import whatcode.study.whatcode.domain.member.dtos.MemberLoginRequestDto;
 import whatcode.study.whatcode.domain.member.dtos.MemberLoginResponseDto;
 import whatcode.study.whatcode.domain.member.dtos.MemberSaveRequestDto;
@@ -17,20 +22,25 @@ import whatcode.study.whatcode.domain.memberTeam.dtos.TeamFindRequestDto;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+
+@SpringBootTest
+@AutoConfigureMockMvc
 @Transactional
 class MemberApiTest {
-    private final String port = "8081";
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     EntityManager em;
-
-    @Autowired
-    TestRestTemplate restTemplate;
 
     @Autowired
     MemberService memberService;
@@ -38,28 +48,19 @@ class MemberApiTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @After
-    public void tearDown() throws Exception{
-        memberRepository.deleteAll();
-    }
-
     @Test
     void memberSave() throws Exception {
         //given
         String email = "test0101@gmail.com";
         MemberSaveRequestDto memberDto = getMemberSaveRequestDto(email);
 
-        //when
-        String url = "http://localhost:" + port + "/api/member/save";
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, memberDto, Long.class);
-
-        //than
-        assertThat(responseEntity.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-
-        Member resMember = memberRepository.getOne(responseEntity.getBody());
-        assertThat(resMember.getEmail())
-                .isEqualTo(email);
+        //when && then
+        this.mockMvc.perform(post("/api/member/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(memberDto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists());
 
     }
 
@@ -78,15 +79,18 @@ class MemberApiTest {
         em.flush();
         em.clear();
 
-        //when
-        String url = "http://localhost:" + port + "/api/member/login";
-        ResponseEntity<MemberLoginResponseDto> responseEntity = restTemplate.postForEntity(url, memberLoginDto, MemberLoginResponseDto.class);
+        this.mockMvc.perform(post("/api/member/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(memberLoginDto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("nickName").value("Stranger"));
 
-        //than
-        assertThat(responseEntity.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody().getNickName())
-                .isEqualTo("Stranger");
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception{
+        memberRepository.deleteAll();
     }
 
     private MemberSaveRequestDto getMemberSaveRequestDto(String email) {
