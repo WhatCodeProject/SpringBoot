@@ -42,12 +42,13 @@ public class memberTeamApiTest {
     @Autowired
     MemberTeamService memberTeamService;
 
-    @BeforeEach
-    void initMemberTeam() {
+
+    @Test
+    void joinTeam()throws Exception{
         //init master member
         String memberEmail = "test01@gmail.com";
         MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
-        memberService.save(memberDto);
+        Long member_id1 = memberService.save(memberDto);
 
         //init 3 teams
         String teamName1 = "WhatCodeTeam_01";
@@ -56,7 +57,7 @@ public class memberTeamApiTest {
         TeamSaveRequestDto teamDto1 = getTeamSaveRequestDto(memberEmail, teamName1);
         TeamSaveRequestDto teamDto2 = getTeamSaveRequestDto(memberEmail, teamName2);
         TeamSaveRequestDto teamDto3 = getTeamSaveRequestDto(memberEmail, teamName3);
-        teamService.save(teamDto1);
+        Long teamService.save(teamDto1);
         teamService.save(teamDto2);
         teamService.save(teamDto3);
 
@@ -64,15 +65,12 @@ public class memberTeamApiTest {
         String otherEmail = "other01@gmail.com";
         MemberSaveRequestDto otherDto = getMemberSaveRequestDto(otherEmail);
         memberService.save(otherDto);
-    }
 
-    @Test
-    void joinTeam()throws Exception{
         //given
-        String otherEmail = "other01@gmail.com";
-        String teamName1 = "WhatCodeTeam_01";
+        Long member_id = 2L;
+        Long team_id = 1L;
 
-        MemberTeamSaveRequestDto memberTeamDto = getMemberTeamSaveRequestDto(otherEmail,teamName1);
+        MemberTeamSaveRequestDto memberTeamDto = getMemberTeamSaveRequestDto(member_id, team_id);
 
         //when && then
         this.mockMvc.perform(post("/api/memberTeam/save")
@@ -86,20 +84,20 @@ public class memberTeamApiTest {
     @Test
     void findTeamsByMember()throws Exception{
         //given
-        String otherEmail = "other01@gmail.com";
-        String teamName1 = "WhatCodeTeam_01";
-        String teamName2 = "WhatCodeTeam_02";
-        String teamName3 = "WhatCodeTeam_03";
+        Long member_id2 = 2L;
+        Long team_id1 = 1L;
+        Long team_id2 = 2L;
+        Long team_id3 = 3L;
 
-        MemberTeamSaveRequestDto memberTeamDto1 = getMemberTeamSaveRequestDto(otherEmail,teamName1);
-        MemberTeamSaveRequestDto memberTeamDto2 = getMemberTeamSaveRequestDto(otherEmail,teamName2);
-        MemberTeamSaveRequestDto memberTeamDto3 = getMemberTeamSaveRequestDto(otherEmail,teamName3);
+        MemberTeamSaveRequestDto memberTeamDto1 = getMemberTeamSaveRequestDto(member_id2,team_id1);
+        MemberTeamSaveRequestDto memberTeamDto2 = getMemberTeamSaveRequestDto(member_id2,team_id2);
+        MemberTeamSaveRequestDto memberTeamDto3 = getMemberTeamSaveRequestDto(member_id2,team_id3);
 
         memberTeamService.save(memberTeamDto1);
         memberTeamService.save(memberTeamDto2);
         memberTeamService.save(memberTeamDto3);
 
-        TeamFindRequestDto requestDto = getTeamFindRequestDto(otherEmail);
+        TeamFindRequestDto requestDto = getTeamFindRequestDto(member_id2);
 
         //when && then
         this.mockMvc.perform(post("/api/memberTeam/findTeamsByMember")
@@ -110,16 +108,16 @@ public class memberTeamApiTest {
 
     }
 
-    private TeamFindRequestDto getTeamFindRequestDto(String otherEmail) {
+    private TeamFindRequestDto getTeamFindRequestDto(Long member_id) {
         return TeamFindRequestDto.builder()
-                .email(otherEmail)
+                .member_id(member_id)
                 .build();
     }
 
-    private MemberTeamSaveRequestDto getMemberTeamSaveRequestDto(String otherEmail, String teamName) {
+    private MemberTeamSaveRequestDto getMemberTeamSaveRequestDto(Long member_id, Long team_id) {
         return MemberTeamSaveRequestDto.builder()
-                .email(otherEmail)
-                .teamName(teamName)
+                .member_id(member_id)
+                .team_id(team_id)
                 .build();
     }
 
