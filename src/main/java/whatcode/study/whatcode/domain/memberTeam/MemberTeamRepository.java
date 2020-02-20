@@ -12,7 +12,6 @@ public interface MemberTeamRepository extends JpaRepository<MemberTeam,Long>{
 
     public List<MemberTeam> findByMember(Member member);
 
-
     @Query(" select mt " +
             " from MemberTeam mt" +
             " join fetch mt.team t" +

@@ -17,9 +17,10 @@ public class RoomService {
     @Transactional
     public Long save(RoomSaveRequestDto requestDto) {
         String roomName = requestDto.getRoomName();
+        RoomType roomType = requestDto.getRoomType();
         Team team = teamRepository.findByTeamName(requestDto.getTeamName());
 
-        return roomRepository.save(Room.createRoom(roomName, requestDto.getRoomType(), team)).getId();
+        return roomRepository.save(Room.createRoom(roomName, roomType, team)).getId();
     }
 
 }

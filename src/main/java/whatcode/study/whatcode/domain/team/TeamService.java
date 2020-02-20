@@ -25,8 +25,6 @@ public class TeamService {
         Team savedTeam = teamRepository.save(Team.createTeam(teamName, teamType, member));
 
         memberTeamRepository.save(MemberTeam.createMemberTeam(member, savedTeam));
-        //memberTeamRepository.save(MemberTeam.createMemberTeam(member, savedTeam));
-
 
         return savedTeam.getId();
     }

@@ -17,27 +17,18 @@ public class TeamController {
 
     @PostMapping("/api/team/save")
     public ResponseEntity save(@RequestBody TeamSaveRequestDto requestDto) {
-
         Long result = teamService.save(requestDto);
-
-        if (result > 0) {
-            // 이 부분 따로 json설정 안할꺼면 클래스에 감싸서 보내야해요
-            // 안그러면 리턴값이 그냥 1 이런식으로 리턴됩니다.
-            // 테스트에서 찍히는 출력 비교해서 확인해보세요
-//            return new ResponseEntity<>(new Temp(result), HttpStatus.OK);
-            return ResponseEntity.ok(new Temp(result));
+        if (result > 0L) {
+            return ResponseEntity.ok(new ReturnId(result));
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @Data
-    static class Temp {
+    static class ReturnId {
         Long id;
-
-        public Temp(Long id) {
-            this.id = id;
-        }
+        public ReturnId(Long id) { this.id = id; }
     }
 
 }

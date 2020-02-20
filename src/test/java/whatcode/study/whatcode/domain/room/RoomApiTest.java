@@ -1,7 +1,6 @@
-package whatcode.study.whatcode.domain.team;
+package whatcode.study.whatcode.domain.room;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import whatcode.study.whatcode.domain.member.MemberRepository;
 import whatcode.study.whatcode.domain.member.MemberService;
 import whatcode.study.whatcode.domain.member.dtos.MemberSaveRequestDto;
-import whatcode.study.whatcode.domain.memberTeam.MemberTeamRepository;
+import whatcode.study.whatcode.domain.room.dtos.RoomSaveRequestDto;
+import whatcode.study.whatcode.domain.team.TeamRepository;
+import whatcode.study.whatcode.domain.team.TeamService;
+import whatcode.study.whatcode.domain.team.TeamType;
 import whatcode.study.whatcode.domain.team.dtos.TeamSaveRequestDto;
 
 import javax.persistence.EntityManager;
@@ -27,9 +28,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class TeamApiTest {
+class RoomApiTest {
+
     @Autowired
-    EntityManager em;
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    RoomRepository roomRepository;
+
+    @Autowired
+    RoomService roomService;
 
     @Autowired
     TeamRepository teamRepository;
@@ -38,50 +49,49 @@ class TeamApiTest {
     TeamService teamService;
 
     @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
     MemberService memberService;
 
     @Autowired
-    MemberTeamRepository memberTeamRepository;
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+    MemberRepository memberRepository;
 
     @BeforeEach
-    void settingMember(){
+    void initTeam(){
         String memberEmail = "test01@gmail.com";
         MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
         memberService.save(memberDto);
+
+        String teamName ="WhatCodeTeam_01";
+        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(memberEmail, teamName);
+        teamService.save(teamDto);
     }
 
+
     @Test
-    void teamSaveMock() throws Exception {
+    void roomSave() throws Exception{
 
         //given
-        String memberEmail = "test01@gmail.com";
-        String teamName ="A team 01";
+        String inRoomName = "코드방1234";
+        String inTeamName = "WhatCodeTeam_01";
 
-        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(memberEmail, teamName);
+        RoomSaveRequestDto roomDto = getRoomSaveRequestDto(inRoomName,inTeamName);
 
-        // when && than
-        this.mockMvc.perform(post("/api/team/save")
+        //when && then
+        this.mockMvc.perform(post("/api/room/save")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(teamDto)))
+                        .content(objectMapper.writeValueAsString(roomDto)))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("id").value("1"));
+
     }
 
-    @AfterEach
-    void tearDown() throws Exception{
-        teamRepository.deleteAll();
-        memberRepository.deleteAll();
-        memberTeamRepository.deleteAll();
+    private RoomSaveRequestDto getRoomSaveRequestDto(String inRoomName, String inTeamName) {
+        return RoomSaveRequestDto.builder()
+                .roomName(inRoomName)
+                .roomType(RoomType.JAVA)
+                .teamName(inTeamName)
+                .build();
+
     }
 
     private MemberSaveRequestDto getMemberSaveRequestDto(String email) {
@@ -100,5 +110,6 @@ class TeamApiTest {
                 .teamType(TeamType.WORK)
                 .build();
     }
+
 
 }

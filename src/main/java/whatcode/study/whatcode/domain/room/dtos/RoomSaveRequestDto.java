@@ -11,31 +11,18 @@ import whatcode.study.whatcode.domain.room.RoomType;
 @NoArgsConstructor
 public class RoomSaveRequestDto {
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    private String memberEmail;
     private String teamName;
     private String roomName;
     private RoomType roomType;
 
 
     @Builder
-    public RoomSaveRequestDto(String memberEmail, String roomName, RoomType roomType, String teamName) {
-        this.memberEmail = memberEmail;
+    public RoomSaveRequestDto(String roomName, RoomType roomType, String teamName) {
+
         this.roomName = roomName;
         this.roomType = roomType;
         this.teamName = teamName;
     }
 
-    @Override
-    public String toString() {
-        return "TeamSaveRequestDto{" +
-                ", memberEmail='" + memberEmail + '\'' +
-                ", teamName='" + teamName + '\'' +
-                ", roomName='" + roomName + '\'' +
-                ", roomType='" + roomType + '\'' +
-                '}';
-    }
 
 }

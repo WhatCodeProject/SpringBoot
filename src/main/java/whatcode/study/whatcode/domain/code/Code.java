@@ -34,7 +34,6 @@ public class Code extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
-    // TODO 코드는 룸, 멤버와 연관관계
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")

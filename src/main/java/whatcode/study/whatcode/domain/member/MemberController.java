@@ -1,5 +1,7 @@
 package whatcode.study.whatcode.domain.member;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,8 @@ public class MemberController {
     @PostMapping("/api/member/save")
     public ResponseEntity save(@RequestBody MemberSaveRequestDto requestDto) {
         Long savedMemberId = memberService.save(requestDto);
-        if (savedMemberId > 0) {
-            return ResponseEntity.ok(savedMemberId);
+        if (savedMemberId > 0L) {
+            return ResponseEntity.ok(new ReturnId(savedMemberId));
         } else {
             return ResponseEntity.badRequest().build();
         }
@@ -33,6 +35,12 @@ public class MemberController {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @Data
+    static class ReturnId {
+        Long id;
+        public ReturnId(Long id) { this.id = id; }
     }
 
 }
