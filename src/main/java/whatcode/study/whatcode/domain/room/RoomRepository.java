@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room,Long>{
     public List<Room> findByTeam(Team team);
+    public Room findByTeam(Team team, String roomName);
 }

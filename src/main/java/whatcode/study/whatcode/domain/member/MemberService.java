@@ -17,6 +17,7 @@ public class MemberService {
         return memberRepository.save(requestDto.toEntity()).getId();
     }
 
+    @Transactional
     public MemberLoginResponseDto login(MemberLoginRequestDto requestDto) {
         Member member = memberRepository.findByEmail(requestDto.getEmail());
 
