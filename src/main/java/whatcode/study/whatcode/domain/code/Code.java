@@ -40,9 +40,9 @@ public class Code extends BaseTimeEntity {
     private Member member;
 
 
-    public static Code createCode(String titie, CodeType codeType, String content, Room room, Member member) {
+    public static Code createCode(String title, CodeType codeType, String content, Room room, Member member) {
         Code code = new Code();
-        code.title = titie;
+        code.title = title;
         code.codeType = codeType;
         code.content = content;
         code.room = room;

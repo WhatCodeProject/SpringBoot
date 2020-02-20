@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import whatcode.study.whatcode.domain.common.ReturnId;
 import whatcode.study.whatcode.domain.room.dtos.RoomSaveRequestDto;
 import whatcode.study.whatcode.domain.team.TeamController;
 
@@ -31,12 +32,5 @@ public class RoomController {
         }
     }
 
-    @Data
-    static class ReturnId {
-        Long id;
-        public ReturnId(Long id) {
-            this.id = id;
-        }
-    }
 
 }
