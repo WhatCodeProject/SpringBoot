@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MemberTeamSaveRequestDto {
-    private String email;
-    private String teamName;
+    private Long member_id;
+    private Long team_id;
 
     @Builder
-    public MemberTeamSaveRequestDto(String email, String teamName){
-        this.email = email;
-        this.teamName = teamName;
+    public MemberTeamSaveRequestDto(Long member_id, Long team_id){
+        this.member_id = member_id;
+        this.team_id = team_id;
     }
 }

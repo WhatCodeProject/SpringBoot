@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class TeamFindRequestDto {
-    private String email;
+    private Long member_id;
 
     @Builder
-    public TeamFindRequestDto(String email){
-        this.email = email;
+    public TeamFindRequestDto(Long member_id){
+        this.member_id = member_id;
     }
 
 }

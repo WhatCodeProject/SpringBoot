@@ -22,16 +22,18 @@ public class MemberTeamService {
     private final TeamRepository teamRepository;
 
     /* member의 team가입*/
-    public Long save(MemberTeamSaveRequestDto requestDto){
-        Member member = memberRepository.findByEmail(requestDto.getEmail());
-        Team team = teamRepository.findByTeamName(requestDto.getTeamName());
-
+    public Long save(MemberTeamSaveRequestDto requestDto) {
+        Member member = memberRepository.findById(requestDto.getMember_id())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 사용자가 없습니다"));
+        Team team = teamRepository.findById(requestDto.getTeam_id())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 팀이 없습니다"));
         return memberTeamRepository.save(MemberTeam.createMemberTeam(member, team)).getId();
     }
 
-    /* member의 email로 팀목록조회*/
+    /* member의 id로 팀목록조회*/
     public List<TeamFindResponseDto> findTeamsByMember(TeamFindRequestDto requestDto) {
-        Member member = memberRepository.findByEmail(requestDto.getEmail());
+        Member member = memberRepository.findById(requestDto.getMember_id())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 사용자가 없습니다"));
 
         List<MemberTeam> memberTeams = memberTeamRepository.findByMemberId(member.getId());
         List<Team> teams = memberTeams.stream().map(MemberTeam::getTeam).collect(Collectors.toList());
