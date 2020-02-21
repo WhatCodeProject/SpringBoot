@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import whatcode.study.whatcode.domain.common.ReturnId;
 import whatcode.study.whatcode.domain.team.dtos.TeamSaveRequestDto;
 
 @RequiredArgsConstructor
@@ -23,12 +24,6 @@ public class TeamController {
         } else {
             return ResponseEntity.badRequest().build();
         }
-    }
-
-    @Data
-    static class ReturnId {
-        Long id;
-        public ReturnId(Long id) { this.id = id; }
     }
 
 }

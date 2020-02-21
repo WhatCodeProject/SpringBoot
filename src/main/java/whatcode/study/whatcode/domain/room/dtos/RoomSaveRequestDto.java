@@ -16,11 +16,12 @@ public class RoomSaveRequestDto {
     private RoomType roomType;
 
     @Builder
-    public RoomSaveRequestDto(String roomName, RoomType roomType, Long team_id) {
+    public RoomSaveRequestDto(Long team_id, String roomName, RoomType roomType) {
 
+        this.team_id = team_id;
         this.roomName = roomName;
         this.roomType = roomType;
-        this.team_id = team_id;
+
     }
 
 
