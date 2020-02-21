@@ -52,21 +52,18 @@ class TeamApiTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @BeforeEach
-    void settingMember(){
-        String memberEmail = "test01@gmail.com";
-        MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
-        memberService.save(memberDto);
-    }
 
     @Test
     void teamSave() throws Exception {
+        //init member
+        String memberEmail = "test01@gmail.com";
+        MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
+        Long member_id1 = memberService.save(memberDto);
 
         //given
-        String memberEmail = "test01@gmail.com";
-        String teamName ="A team 01";
 
-        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(memberEmail, teamName);
+        String teamName ="A team 01";
+        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(member_id1, teamName);
 
         // when && than
         this.mockMvc.perform(post("/api/team/save")
@@ -93,9 +90,9 @@ class TeamApiTest {
                 .build();
     }
 
-    private TeamSaveRequestDto getTeamSaveRequestDto(String email, String teamName) {
+    private TeamSaveRequestDto getTeamSaveRequestDto(Long member_id, String teamName) {
         return TeamSaveRequestDto.builder()
-                .memberEmail(email)
+                .member_id(member_id)
                 .teamName(teamName)
                 .teamType(TeamType.WORK)
                 .build();

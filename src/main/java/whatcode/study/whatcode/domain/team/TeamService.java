@@ -21,7 +21,8 @@ public class TeamService {
     public Long save(TeamSaveRequestDto requestDto){
         String teamName = requestDto.getTeamName();
         TeamType teamType = requestDto.getTeamType();
-        Member member = memberRepository.findByEmail(requestDto.getMemberEmail());
+        Member member = memberRepository.findById(requestDto.getMember_id())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 사용자를 찾을수 없습니다"));
         Team savedTeam = teamRepository.save(Team.createTeam(teamName, teamType, member));
 
         memberTeamRepository.save(MemberTeam.createMemberTeam(member, savedTeam));

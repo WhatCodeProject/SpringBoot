@@ -18,7 +18,8 @@ public class RoomService {
     public Long save(RoomSaveRequestDto requestDto) {
         String roomName = requestDto.getRoomName();
         RoomType roomType = requestDto.getRoomType();
-        Team team = teamRepository.findByTeamName(requestDto.getTeamName());
+        Team team = teamRepository.findById(requestDto.getTeam_id())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 사용자가 없습니다"));
 
         return roomRepository.save(Room.createRoom(roomName, roomType, team)).getId();
     }

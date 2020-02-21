@@ -11,17 +11,16 @@ import whatcode.study.whatcode.domain.room.RoomType;
 @NoArgsConstructor
 public class RoomSaveRequestDto {
 
-    private String teamName;
+    private Long team_id;
     private String roomName;
     private RoomType roomType;
 
-
     @Builder
-    public RoomSaveRequestDto(String roomName, RoomType roomType, String teamName) {
+    public RoomSaveRequestDto(String roomName, RoomType roomType, Long team_id) {
 
         this.roomName = roomName;
         this.roomType = roomType;
-        this.teamName = teamName;
+        this.team_id = team_id;
     }
 
 

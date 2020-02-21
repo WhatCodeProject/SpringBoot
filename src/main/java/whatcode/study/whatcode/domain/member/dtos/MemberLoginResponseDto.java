@@ -21,11 +21,11 @@ public class MemberLoginResponseDto {
         this.nickName = nickName;
     }
 
-    public Member toEntity(){
+/*    public Member toEntity(){
         return Member.builder()
                 .email(email)
                 .name(name)
                 .nickName(nickName)
                 .build();
-    }
+    }*/
 }

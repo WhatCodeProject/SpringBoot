@@ -35,7 +35,8 @@ public class CodeSaveRequestDto {
     private String email;
 
     @Builder
-    public CodeSaveRequestDto(String title, CodeType codeType, String content, String roomName, String teamName, String email){
+    public CodeSaveRequestDto(Long room_id, String title, CodeType codeType, String content, String roomName, String teamName, String email){
+        this.room_id = room_id;
         this.title = title;
         this.codeType = codeType;
         this.content = content;
@@ -44,8 +45,8 @@ public class CodeSaveRequestDto {
     }
 
     public Code toEntity(){
-        Optional<Room> roomOpt = roomRepository.findById(room_id);
+        Room room = roomRepository.findById(room_id).orElseThrow(() -> new IllegalArgumentException("일치하는 코드룸이 없습니다"));
         Member member = memberRepository.findByEmail(email);
-        return Code.createCode(title,codeType,content,roomOpt.get(),member);
+        return Code.createCode(title,codeType,content,room,member);
     }
 }

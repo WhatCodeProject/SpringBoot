@@ -1,6 +1,7 @@
 package whatcode.study.whatcode.domain.room;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import whatcode.study.whatcode.domain.member.MemberRepository;
 import whatcode.study.whatcode.domain.member.MemberService;
 import whatcode.study.whatcode.domain.member.dtos.MemberSaveRequestDto;
+import whatcode.study.whatcode.domain.memberTeam.MemberTeamRepository;
 import whatcode.study.whatcode.domain.room.dtos.RoomSaveRequestDto;
 import whatcode.study.whatcode.domain.team.TeamRepository;
 import whatcode.study.whatcode.domain.team.TeamService;
@@ -54,26 +56,24 @@ class RoomApiTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @BeforeEach
-    void initTeam(){
-        String memberEmail = "test01@gmail.com";
-        MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
-        memberService.save(memberDto);
-
-        String teamName ="WhatCodeTeam_01";
-        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(memberEmail, teamName);
-        teamService.save(teamDto);
-    }
-
+    @Autowired
+    MemberTeamRepository memberTeamRepository;
 
     @Test
     void roomSave() throws Exception{
+        //init member
+        String memberEmail = "test01@gmail.com";
+        MemberSaveRequestDto memberDto = getMemberSaveRequestDto(memberEmail);
+        Long member_id1 = memberService.save(memberDto);
+
+        //init team
+        String teamName ="WhatCodeTeam_01";
+        TeamSaveRequestDto teamDto = getTeamSaveRequestDto(member_id1,teamName);
+        Long team_id1 = teamService.save(teamDto);
 
         //given
         String inRoomName = "코드방1234";
-        String inTeamName = "WhatCodeTeam_01";
-
-        RoomSaveRequestDto roomDto = getRoomSaveRequestDto(inRoomName,inTeamName);
+        RoomSaveRequestDto roomDto = getRoomSaveRequestDto(inRoomName,team_id1);
 
         //when && then
         this.mockMvc.perform(post("/api/room/save")
@@ -81,15 +81,22 @@ class RoomApiTest {
                         .content(objectMapper.writeValueAsString(roomDto)))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("id").value("1"));
-
+                    .andExpect(jsonPath("id").exists());
     }
 
-    private RoomSaveRequestDto getRoomSaveRequestDto(String inRoomName, String inTeamName) {
+    @AfterEach
+    void tearDown() throws Exception{
+        roomRepository.deleteAll();
+        memberTeamRepository.deleteAll();
+        teamRepository.deleteAll();
+        memberRepository.deleteAll();
+    }
+
+    private RoomSaveRequestDto getRoomSaveRequestDto(String inRoomName, Long team_id) {
         return RoomSaveRequestDto.builder()
                 .roomName(inRoomName)
                 .roomType(RoomType.JAVA)
-                .teamName(inTeamName)
+                .team_id(team_id)
                 .build();
 
     }
@@ -103,13 +110,12 @@ class RoomApiTest {
                 .build();
     }
 
-    private TeamSaveRequestDto getTeamSaveRequestDto(String email, String teamName) {
+    private TeamSaveRequestDto getTeamSaveRequestDto(Long member_id, String teamName) {
         return TeamSaveRequestDto.builder()
-                .memberEmail(email)
+                .member_id(member_id)
                 .teamName(teamName)
                 .teamType(TeamType.WORK)
                 .build();
     }
-
 
 }

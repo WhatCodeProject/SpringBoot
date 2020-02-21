@@ -33,7 +33,7 @@ public class Chat extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
     // TODO Chat은 Room이랑 연관관계
@@ -57,6 +57,6 @@ public class Chat extends BaseTimeEntity {
 
     private void setRoom(Room room) {
         this.room = room;
-        room.setChat(this);
+        room.getChats().add(this);
     }
 }

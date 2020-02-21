@@ -8,6 +8,7 @@ import whatcode.study.whatcode.domain.common.BaseTimeEntity;
 import whatcode.study.whatcode.domain.team.Team;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,8 +27,8 @@ public class Room extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
-    @OneToOne(mappedBy = "room")
-    private Chat chat;
+    @OneToMany(mappedBy = "room")
+    private List<Chat> chats;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
@@ -41,10 +42,6 @@ public class Room extends BaseTimeEntity {
         room.team = team;
 
         return room;
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
     }
 
 }
